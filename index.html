@@ -495,27 +495,34 @@
           <span class="print-value" id="pv_dataRichiesta"></span>
         </div>
         <div class="field">
-          <label>Cliente</label>
-          <input type="text" id="cliente" placeholder="Nome cliente" oninput="sp('cliente','pv_cliente')">
-          <span class="print-value" id="pv_cliente"></span>
+          <label>Agente</label>
+          <input type="text" id="agente" placeholder="Nome agente" oninput="sp('agente','pv_agente')">
+          <span class="print-value" id="pv_agente"></span>
         </div>
       </div>
       <div class="field-row">
         <div class="field">
-          <label>Riferimento Agente</label>
-          <input type="text" id="riferimento" placeholder="Nome agente" oninput="sp('riferimento','pv_riferimento')">
-          <span class="print-value" id="pv_riferimento"></span>
+          <label>Cliente</label>
+          <input type="text" id="cliente" placeholder="Nome cliente" oninput="sp('cliente','pv_cliente')">
+          <span class="print-value" id="pv_cliente"></span>
         </div>
         <div class="field">
-          <label>Nr. Telefono</label>
-          <input type="tel" id="telefono" placeholder="Numero di telefono" oninput="sp('telefono','pv_telefono')">
-          <span class="print-value" id="pv_telefono"></span>
+          <label>Telefono Cliente</label>
+          <input type="tel" id="telefonoCliente" placeholder="es. 0422 123456" oninput="sp('telefonoCliente','pv_telefonoCliente')">
+          <span class="print-value" id="pv_telefonoCliente"></span>
+        </div>
+      </div>
+      <div class="field-row">
+        <div class="field">
+          <label>Referente / Nominativo Contatto</label>
+          <input type="text" id="rifCliente" placeholder="Nome referente/contatto" oninput="sp('rifCliente','pv_rifCliente')">
+          <span class="print-value" id="pv_rifCliente"></span>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- 2. DATE MANIFESTAZIONE -->
+<!-- 2. DATE MANIFESTAZIONE -->
   <div class="section">
     <div class="section-header"><div class="sect-num">2</div><h2>Date Manifestazione</h2></div>
     <div class="section-body">
@@ -1016,7 +1023,7 @@ function updateMercTable() {
 
 // ── PROGRESS ──
 function updateProgress(){
-  const ids=["dataRichiesta","cliente","riferimento","dataInizio","dataFine","luogoConsegna","muletto"];
+  const ids=["dataRichiesta","cliente","agente","rifCliente","dataInizio","dataFine","luogoConsegna","muletto"];
   const f=ids.filter(id=>{const e=document.getElementById(id);return e&&e.value;}).length;
   const hasEq=attrezzature.some(a=>!a.isText&&parseInt((document.getElementById("nr_"+a.id)||{}).value)>0);
   document.getElementById("progressFill").style.width=Math.round(((f+(hasEq?1:0))/(ids.length+1))*100)+"%";
@@ -1026,7 +1033,7 @@ function updateProgress(){
 function syncAll(){
   const oggi=new Date().toLocaleDateString("it-IT",{day:"2-digit",month:"2-digit",year:"numeric"});
   document.getElementById("mainHeader").setAttribute("data-stampa","Stampato il "+oggi);
-  ["dataRichiesta","cliente","riferimento","telefono","dataInizio","dataFine","dataConsegna","dataRitiro","luogoConsegna","muletto"].forEach(id=>sp(id,"pv_"+id,DATE_IDS.includes(id)));
+  ["dataRichiesta","agente","cliente","telefonoCliente","rifCliente","dataInizio","dataFine","dataConsegna","dataRitiro","luogoConsegna","muletto"].forEach(id=>sp(id,"pv_"+id,DATE_IDS.includes(id)));
   const is=document.getElementById("infoScarico"),ispv=document.getElementById("pv_infoScarico");
   if(is&&ispv){ispv.textContent=is.value||"—";ispv.className="print-value"+(is.value?"":" vuoto");}
   const nc=document.getElementById("noteCliente"),ncpv=document.getElementById("pv_noteCliente");
@@ -1090,7 +1097,7 @@ function stampaMercuriali() {
 // ── RESET ──
 function resetForm(){
   if(!confirm("Avviare un nuovo modulo? I dati attuali andranno persi.")) return;
-  ["dataRichiesta","cliente","riferimento","telefono","dataInizio","dataFine","dataConsegna","dataRitiro","luogoConsegna","infoScarico","muletto","noteCliente"].forEach(id=>{const e=document.getElementById(id);if(e)e.value="";});
+  ["dataRichiesta","agente","cliente","telefonoCliente","rifCliente","dataInizio","dataFine","dataConsegna","dataRitiro","luogoConsegna","infoScarico","muletto","noteCliente"].forEach(id=>{const e=document.getElementById(id);if(e)e.value="";});
   document.getElementById("durationDisplay").style.display="none";
   document.getElementById("pv_noteCliente").style.display="none";
   settimane=0;
@@ -1118,7 +1125,7 @@ document.addEventListener("DOMContentLoaded",()=>{
   const today=new Date().toISOString().split("T")[0];
   document.getElementById("dataRichiesta").value=today;
   sp("dataRichiesta","pv_dataRichiesta",true);
-  ["cliente","riferimento","telefono","luogoConsegna","infoScarico"].forEach(id=>{
+  ["cliente","agente","rifCliente","telefonoCliente","luogoConsegna","infoScarico"].forEach(id=>{
     const e=document.getElementById(id);if(e)e.addEventListener("input",()=>sp(id,"pv_"+id));
   });
 });
