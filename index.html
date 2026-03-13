@@ -155,7 +155,7 @@
      REGOLE @media print condivise
      ══════════════════════════════════════ */
   @media print {
-    @page{size:A4 portrait;margin:12mm 11mm 13mm 11mm;}
+    @page{size:A4 portrait;margin:7mm 9mm 16mm 9mm;}
     *{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important;}
     body{background:white!important;padding:0!important;font-size:9pt;color:#1A1A1A!important;font-family:Aptos,Calibri,Arial,sans-serif!important;}
 
@@ -181,13 +181,13 @@
 
     /* Layout sezioni */
     .container{padding:0!important;max-width:100%!important;}
-    .section{box-shadow:none!important;border:.5pt solid #CCCCCC!important;border-radius:4pt!important;margin-bottom:6pt!important;page-break-inside:avoid;overflow:visible!important;}
+    .section{box-shadow:none!important;border:.5pt solid #CCCCCC!important;border-radius:4pt!important;margin-bottom:3pt!important;page-break-inside:avoid;overflow:visible!important;}
     .section-header{padding:5pt 10pt!important;}
     .section-header .sect-num{width:18pt!important;height:18pt!important;font-size:9pt!important;}
     .section-header h2{font-size:8pt!important;letter-spacing:.5pt;color:white!important;}
-    .section-body{padding:7pt 10pt!important;}
+    .section-body{padding:5pt 9pt!important;}
     .field-row{gap:9pt!important;margin-bottom:5pt!important;}
-    .field{gap:1pt!important;margin-bottom:3pt!important;}
+    .field{gap:1pt!important;margin-bottom:2pt!important;}
     .field label{font-size:6.5pt!important;color:#999!important;}
 
     /* Durata */
@@ -342,7 +342,7 @@
 
   @media print {
     .firma-actions, .firma-hint, .firma-btn, .pdf-spinner { display: none !important; }
-    .firma-canvas { border: 0.5pt solid #CCC !important; height: 80pt !important; }
+    .firma-canvas { border: 0.5pt solid #CCC !important; height: 55pt !important; }
   }
 
   /* FIRMA IMG IN STAMPA */
@@ -414,8 +414,8 @@
     #firmaCanvas { display: none !important; }
     #firmaImgPrint {
       display: block !important;
-      width: 100% !important;
-      height: 120pt !important;
+      width: 60% !important;
+      height: 55pt !important;
       max-height: 120pt !important;
       object-fit: contain !important;
       object-position: left center !important;
@@ -424,7 +424,7 @@
       background: white !important;
     }
     /* Fix: box firma più alto */
-    .firma-canvas-wrap { min-height: 120pt !important; }
+    .firma-canvas-wrap { min-height: 55pt !important; }
 
     /* Safari iOS: forza display table su tbody generato da JS */
     table { border-collapse: collapse !important; width: 100% !important; }
@@ -691,7 +691,7 @@ const listino = [
   {nome:"BANCO SPINA",vie:2,prezzo:2000},{nome:"BANCO SPINA",vie:1,prezzo:1500},
   {nome:"SOPRABANCO",vie:null,prezzo:1500},{nome:"COCKTAIL STATION*",vie:null,prezzo:2500},
   {nome:"OMBRELLONI e BASE",vie:null,prezzo:500},{nome:"FRIGORIFERI A COLONNA",vie:null,prezzo:800},
-  {nome:"POZZETTI",vie:null,prezzo:700},{nome:"SET (PANCHE 20) + (TAVOLO 10) 220x70",vie:null,prezzo:2000},
+  {nome:"POZZETTI",vie:null,prezzo:700},{nome:"SET SINGOLO (2 PANCHE) + TAVOLO (1) 220X70",vie:null,prezzo:150},
   {nome:"GAZEBI NERI 4x4",vie:null,prezzo:5000},{nome:"CHIOSCHI",vie:null,prezzo:3000},
 ];
 
@@ -709,7 +709,7 @@ const attrezzature = [
   {id:"omb",nome:"OMBRELLONI e BASE",prezzoBase:50},
   {id:"fri",nome:"FRIGORIFERI A COLONNA",prezzoBase:50},
   {id:"poz",nome:"POZZETTI",prezzoBase:50},
-  {id:"set",nome:"SET PANCHE (20) + TAVOLO (10) 220x70",prezzoBase:180},
+  {id:"set",nome:"SET SINGOLO (2 PANCHE) + TAVOLO (1) 220X70",prezzoBase:9},
   {id:"gaz",nome:"GAZEBI NERI 4x4",prezzoBase:150},
   {id:"chi",nome:"CHIOSCHI",prezzoBase:150},
 ];
