@@ -738,24 +738,26 @@
 <script>
 // ── LISTINO MERCURIALI (da foglio "Listino Mercuriali") ──
 const listino = [
+  {nome:"BANCO SPINA",vie:6,prezzo:4000},{nome:"BANCO SPINA",vie:5,prezzo:3500},
   {nome:"BANCO SPINA",vie:4,prezzo:3000},{nome:"BANCO SPINA",vie:3,prezzo:2500},
-  {nome:"BANCO SPINA",vie:2,prezzo:150},{nome:"BANCO SPINA",vie:1,prezzo:1500},
-  {nome:"SOPRABANCO",vie:null,prezzo:1500},{nome:"COCKTAIL STATION*",vie:null,prezzo:2500},
+  {nome:"BANCO SPINA",vie:2,prezzo:2000},{nome:"BANCO SPINA",vie:1,prezzo:1500},
+  {nome:"SOPRABANCO",vie:2,prezzo:1500},{nome:"SOPRABANCO",vie:1,prezzo:1500},{nome:"COCKTAIL STATION*",vie:null,prezzo:2500},
   {nome:"OMBRELLONI e BASE",vie:null,prezzo:500},{nome:"FRIGORIFERI A COLONNA",vie:null,prezzo:800},
   {nome:"POZZETTI",vie:null,prezzo:700},{nome:"SET SINGOLO (2 PANCHE) + TAVOLO (1) 220X70",vie:null,prezzo:150},
   {nome:"GAZEBI NERI 4x4",vie:null,prezzo:5000},{nome:"CHIOSCHI",vie:null,prezzo:3000},
 ];
 
 const attrezzature = [
-  {id:"bs1",nome:"BANCO SPINA",hasVie:true,prezzoBase:100,isSpina:true},
+  {id:"bs1",nome:"BANCO SPINA",hasVie:true,vieMax:6,prezzoBase:100,isSpina:true},
   {id:"ps1",nome:"Prodotti Spina Erogati",isText:true},
-  {id:"bs2",nome:"BANCO SPINA",hasVie:true,prezzoBase:100,isSpina:true},
+  {id:"bs2",nome:"BANCO SPINA",hasVie:true,vieMax:6,prezzoBase:100,isSpina:true},
   {id:"ps2",nome:"Prodotti Spina Erogati",isText:true},
-  {id:"bs3",nome:"BANCO SPINA",hasVie:true,prezzoBase:100,isSpina:true},
+  {id:"bs3",nome:"BANCO SPINA",hasVie:true,vieMax:6,prezzoBase:100,isSpina:true},
   {id:"ps3",nome:"Prodotti Spina Erogati",isText:true},
-  {id:"bs4",nome:"BANCO SPINA",hasVie:true,prezzoBase:100,isSpina:true},
+  {id:"bs4",nome:"BANCO SPINA",hasVie:true,vieMax:6,prezzoBase:100,isSpina:true},
   {id:"ps4",nome:"Prodotti Spina Erogati",isText:true},
-  {id:"sb", nome:"SOPRABANCO",prezzoBase:50},
+  {id:"sb",nome:"SOPRABANCO",hasVie:true,vieMax:2,isSpina:true,prezzoBase:50},
+  {id:"ps_sb",nome:"Prodotti Soprabanco Erogati",isText:true,placeholder:"es. Birra · Vino · Cocktail…"},
   {id:"cs", nome:"COCKTAIL STATION*",prezzoBase:250},
   {id:"omb",nome:"OMBRELLONI e BASE",prezzoBase:50},
   {id:"fri",nome:"FRIGORIFERI A COLONNA",prezzoBase:50},
@@ -827,7 +829,7 @@ function renderTable() {
       inp.type = "text";
       inp.className = "eq-input";
       inp.id = "nr_" + item.id;
-      inp.placeholder = "es. Pilsner 5L \u00b7 IPA \u00b7 Weiss\u2026";
+      inp.placeholder = item.placeholder || "es. Pilsner 5L \u00b7 IPA \u00b7 Weiss\u2026";
       inp.style.cssText = "width:100%;font-size:13px;font-style:italic;text-align:left;padding:5px 10px;color:#7A7A7A;";
 
       var pvSpan = document.createElement("span");
@@ -896,7 +898,12 @@ function renderTable() {
       sel.className = "eq-input eq-vie";
       sel.id = "vie_" + item.id;
       sel.style.cssText = "padding:5px 2px;font-size:13px;";
-      ["","1","2","3","4"].forEach(function(v) {
+      (function() {
+        var maxV = item.vieMax || 4;
+        var opts = [""];
+        for (var v=1; v<=maxV; v++) opts.push(String(v));
+        return opts;
+      })().forEach(function(v) {
         var opt = document.createElement("option");
         opt.value = v; opt.textContent = v || "\u2014";
         sel.appendChild(opt);
