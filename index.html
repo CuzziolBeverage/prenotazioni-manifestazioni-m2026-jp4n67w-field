@@ -515,6 +515,26 @@
     .header-subtitle { font-size: 6.5pt !important; }
     .header-year { font-size: 16pt !important; padding: 0 10pt !important; }
   }
+
+  /* Date consegna/ritiro nella sezione 4 */
+  .date-consegna-bar {
+    background: var(--orange-light, #FFF0DC);
+    border-bottom: 1px solid var(--orange-mid, #F5C878);
+    padding: 6px 14px;
+    font-size: 12px;
+    color: var(--grey-dark, #3C3C3C);
+    display: flex;
+    gap: 16px;
+    align-items: center;
+  }
+  .dcb-lbl { font-weight: 700; font-size: 10px; text-transform: uppercase; letter-spacing: .5px; color: var(--grey-mid, #7A7A7A); }
+  .dcb-val { display: inline !important; font-size: 12px; font-weight: 600; color: var(--grey-dark, #3C3C3C); border: none !important; padding: 0 !important; min-height: auto !important; }
+  .dcb-sep { color: var(--grey-border, #D0D0D0); }
+  @media print {
+    .date-consegna-bar { display: flex !important; background: #FFF0DC !important; padding: 3pt 8pt !important; font-size: 7.5pt !important; border-bottom: .5pt solid #F5C878 !important; }
+    .dcb-lbl { font-size: 6.5pt !important; }
+    .dcb-val { font-size: 7.5pt !important; display: inline !important; border: none !important; padding: 0 !important; min-height: auto !important; }
+  }
 </style>
 </head>
 <body>
@@ -650,6 +670,11 @@
   <!-- 4. ATTREZZATURE NOLEGGIO -->
   <div class="section prenotazione-only">
     <div class="section-header"><div class="sect-num">4</div><h2>Attrezzature — Noleggio Settimanale</h2></div>
+    <div class="date-consegna-bar">
+      <span class="dcb-item"><span class="dcb-lbl">Consegna:</span> <span class="print-value dcb-val" id="pv_dataConsegna2"></span></span>
+      <span class="dcb-sep">|</span>
+      <span class="dcb-item"><span class="dcb-lbl">Ritiro:</span> <span class="print-value dcb-val" id="pv_dataRitiro2"></span></span>
+    </div>
     <div class="noleggio-avviso">⚠️&nbsp; NOLEGGIO SETTIMANALE SE VALORE MERCE TOTALE CONSUMATA INFERIORE A € 10'000</div>
     <div class="avviso10k-print">NOLEGGIO SETTIMANALE SE VALORE MERCE TOTALE CONSUMATA INFERIORE A € 10'000</div>
     <div class="table-wrap">
@@ -756,7 +781,7 @@ const attrezzature = [
   {id:"ps3",nome:"Prodotti Spina Erogati",isText:true},
   {id:"bs4",nome:"BANCO SPINA",hasVie:true,vieMax:6,prezzoBase:100,isSpina:true},
   {id:"ps4",nome:"Prodotti Spina Erogati",isText:true},
-  {id:"sb",nome:"SOPRABANCO",hasVie:true,vieMax:2,isSpina:true,prezzoBase:50},
+  {id:"sb",nome:"SOPRABANCO",hasVie:true,vieMax:4,isSpina:true,prezzoBase:50},
   {id:"ps_sb",nome:"Prodotti Soprabanco Erogati",isText:true,placeholder:"es. Birra · Vino · Cocktail…"},
   {id:"cs", nome:"COCKTAIL STATION*",prezzoBase:250},
   {id:"omb",nome:"OMBRELLONI e BASE",prezzoBase:50},
@@ -1096,6 +1121,21 @@ function syncAll(){
   if(is&&ispv){ispv.textContent=is.value||"—";ispv.className="print-value"+(is.value?"":" vuoto");}
   const nc=document.getElementById("noteCliente"),ncpv=document.getElementById("pv_noteCliente");
   if(nc&&ncpv){ncpv.textContent=nc.value;ncpv.style.display=nc.value?"block":"none";}
+  // Sync date sezione 4
+  var dc2 = document.getElementById("pv_dataConsegna2");
+  var dr2 = document.getElementById("pv_dataRitiro2");
+  var dcEl = document.getElementById("dataConsegna");
+  var drEl = document.getElementById("dataRitiro");
+  if (dc2 && dcEl) {
+    var dcVal = dcEl.value;
+    if (dcVal) { var d=new Date(dcVal+"T00:00:00"); dcVal=d.toLocaleDateString("it-IT",{day:"2-digit",month:"2-digit",year:"numeric"}); }
+    dc2.textContent = dcVal || "—";
+  }
+  if (dr2 && drEl) {
+    var drVal = drEl.value;
+    if (drVal) { var d2=new Date(drVal+"T00:00:00"); drVal=d2.toLocaleDateString("it-IT",{day:"2-digit",month:"2-digit",year:"numeric"}); }
+    dr2.textContent = drVal || "—";
+  }
   // Sync NR e VIE per tutti gli item
   for(var i=0;i<attrezzature.length;i++){
     var it=attrezzature[i];
